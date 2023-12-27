@@ -22,7 +22,11 @@ public class DBWriter implements ItemWriter<Transaction> {
 
     @Override
     public void write(List<? extends Transaction> trxs) throws Exception{
-        System.out.println("Data Saved for trxs: " + trxs);
+
+        transactionRepository.deleteAll();
+
+        System.out.println("Data Saved for trxs: " + trxs.size());
+
         transactionRepository.saveAll(trxs);
     }
 }

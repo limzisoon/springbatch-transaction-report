@@ -44,14 +44,14 @@ public class SpringBatchConfig {
     ) {
 
         Step step1 = stepBuilderFactory.get("csv-load-db")
-                .<Transaction, Transaction>chunk(100)
+                .<Transaction, Transaction>chunk(1000)
                 .reader(itemReader)
                 .processor(itemProcessor)
                 .writer(itemWriter)
                 .build();
 
         Step step2 = stepBuilderFactory.get("db-write-csv")
-                .<Transaction, Transaction>chunk(100)
+                .<Transaction, Transaction>chunk(1000)
                 .reader(transactionItemReader)
                 .writer(transactionItemWriter)
                 .build();
