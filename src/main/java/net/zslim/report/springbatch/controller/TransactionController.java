@@ -32,6 +32,14 @@ public class TransactionController {
     @Autowired
     Job job;
 
+    public TransactionController(TransactionService transactionService) {
+    }
+
+    /**
+     * This method call spring batch
+     * step1. load the input.csv file to database temp table
+     * step2. generate the daily summary transaction report - data/Output.csv file
+     */
     @GetMapping(value = "/load")
     public BatchStatus load() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
 
@@ -50,6 +58,12 @@ public class TransactionController {
         return jobExecution.getStatus();
     }
 
+    /**
+     * This method call spring batch
+     * step1. load the data/input.csv file to database temp table
+     * step2. generate the daily summary transaction report - data/Output.csv file
+     * query database and create the daily summary transaction in json format response
+     */
     @GetMapping(value = "/load2")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<TransactionResponseDTO>> load2() {
@@ -77,9 +91,15 @@ public class TransactionController {
         }
     }
 
+    /**
+     * This method call spring batch
+     * step1. load the data/input.csv file to database temp table
+     * step2. generate the daily summary transaction report - data/Output.csv file
+     * Prepare the Output.csv file as response
+     */
     @GetMapping(value = "/load3")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ByteArrayResource>  load3() {
+    public ResponseEntity<ByteArrayResource> load3() {
         try {
             Map<String, JobParameter> maps = new HashMap<>();
             maps.put("time", new JobParameter(System.currentTimeMillis()));
